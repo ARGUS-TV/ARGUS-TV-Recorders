@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgusTV.Recorders.Common", "ArgusTV.Recorders.Common\ArgusTV.Recorders.Common.csproj", "{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_NET35", "_NET35", "{E4A960BC-3B3F-483A-A874-2EFA518BB69F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgusTV.Recorders.Common.NET35", "_NET35\ArgusTV.Recorders.Common\ArgusTV.Recorders.Common.NET35.csproj", "{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaPortal TV Server", "MediaPortal TV Server", "{B7BAFB28-013F-4078-8AFE-B800FC752E19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgusTV.Recorder.MediaPortalTvServer12", "ArgusTV.Recorder.MediaPortalTvServer12\ArgusTV.Recorder.MediaPortalTvServer12.csproj", "{35099DD6-DD8C-483D-B1E5-0B049820D905}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgusTV.Recorder.MediaPortalTvServer", "ArgusTV.Recorder.MediaPortalTvServer\ArgusTV.Recorder.MediaPortalTvServer.csproj", "{48099DA6-DD8C-483D-B1E5-0B049820E918}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{FB9FE18D-807A-4647-AF29-B11AEA821BFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Test|Any CPU = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B2}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B2}.Test|Any CPU.Build.0 = Test|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B9}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B9}.Test|Any CPU.Build.0 = Test|Any CPU
+		{35099DD6-DD8C-483D-B1E5-0B049820D905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35099DD6-DD8C-483D-B1E5-0B049820D905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35099DD6-DD8C-483D-B1E5-0B049820D905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35099DD6-DD8C-483D-B1E5-0B049820D905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35099DD6-DD8C-483D-B1E5-0B049820D905}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{35099DD6-DD8C-483D-B1E5-0B049820D905}.Test|Any CPU.Build.0 = Release|Any CPU
+		{48099DA6-DD8C-483D-B1E5-0B049820E918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48099DA6-DD8C-483D-B1E5-0B049820E918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48099DA6-DD8C-483D-B1E5-0B049820E918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48099DA6-DD8C-483D-B1E5-0B049820E918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48099DA6-DD8C-483D-B1E5-0B049820E918}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{48099DA6-DD8C-483D-B1E5-0B049820E918}.Test|Any CPU.Build.0 = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B9} = {E4A960BC-3B3F-483A-A874-2EFA518BB69F}
+		{35099DD6-DD8C-483D-B1E5-0B049820D905} = {B7BAFB28-013F-4078-8AFE-B800FC752E19}
+		{48099DA6-DD8C-483D-B1E5-0B049820E918} = {B7BAFB28-013F-4078-8AFE-B800FC752E19}
+		{E4A960BC-3B3F-483A-A874-2EFA518BB69F} = {FB9FE18D-807A-4647-AF29-B11AEA821BFB}
+		{2D8CF05B-70F3-4CAE-9A66-FB8075CAB1B2} = {FB9FE18D-807A-4647-AF29-B11AEA821BFB}
+	EndGlobalSection
+EndGlobal
