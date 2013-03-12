@@ -41,15 +41,15 @@ namespace ArgusTV.Recorders.Common
         private bool _okToRenameRecordedFiles;
 
         public RecordingThreadBase(Guid recorderTunerId, string serverHostName, int serverTcpPort, CardChannelAllocation channelAllocation,
-            DateTime startTime, DateTime stopTime, UpcomingProgram recordingProgram, bool okToRenameRecordedFiles)
+            DateTime startTimeUtc, DateTime stopTimeUtc, UpcomingProgram recordingProgram, bool okToRenameRecordedFiles)
             : base("Record")
         {
             _recorderTunerId = recorderTunerId;
             _serverHostName = serverHostName;
             _serverTcpPort = serverTcpPort;
             _channelAllocation = channelAllocation;
-            _startTime = startTime;
-            _stopTime = stopTime;
+            _startTimeUtc = startTimeUtc;
+            _stopTimeUtc = stopTimeUtc;
             _recordingProgram = recordingProgram;
             _okToRenameRecordedFiles = okToRenameRecordedFiles;
         }
@@ -75,19 +75,19 @@ namespace ArgusTV.Recorders.Common
             get { return _channelAllocation; }
         }
 
-        private DateTime _startTime;
+        private DateTime _startTimeUtc;
 
-        public DateTime StartTime
+        public DateTime StartTimeUtc
         {
-            get { return _startTime; }
+            get { return _startTimeUtc; }
         }
 
-        private DateTime _stopTime;
+        private DateTime _stopTimeUtc;
 
-        public DateTime StopTime
+        public DateTime StopTimeUtc
         {
-            get { lock (this) { return _stopTime; } }
-            set { lock (this) { _stopTime = value; } }
+            get { lock (this) { return _stopTimeUtc; } }
+            set { lock (this) { _stopTimeUtc = value; } }
         }
 
         private UpcomingProgram _recordingProgram;
@@ -182,11 +182,11 @@ namespace ArgusTV.Recorders.Common
                 {
                     SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS | EXECUTION_STATE.ES_SYSTEM_REQUIRED | EXECUTION_STATE.ES_AWAYMODE_REQUIRED);
 
-                    if (this.StopTime <= DateTime.Now || _startTime >= this.StopTime)
+                    if (this.StopTimeUtc <= DateTime.UtcNow || _startTimeUtc >= this.StopTimeUtc)
                     {
                         CallStartRecordingFailed(callbackAgent, String.Format(CultureInfo.InvariantCulture,
                             "Recording of {0} at {1} for {2} has invalid timing parameters.",
-                            _channelAllocation.ChannelName, _startTime.ToShortTimeString(), this.StopTime.Subtract(_startTime)));
+                            _channelAllocation.ChannelName, _startTimeUtc.ToLocalTime().ToShortTimeString(), this.StopTimeUtc.Subtract(_startTimeUtc)));
                         return;
                     }
 
@@ -207,14 +207,14 @@ namespace ArgusTV.Recorders.Common
                         aborted = true;
                     }
 
-                    DateTime actualStartTime = DateTime.MaxValue;
+                    DateTime actualStartTimeUtc = DateTime.MaxValue;
 
                     if (!aborted)
                     {
                         // Now wait for the actual start-time
                         try
                         {
-                            TimeSpan delay = _startTime.AddSeconds(-1) - DateTime.Now;
+                            TimeSpan delay = _startTimeUtc.AddSeconds(-1) - DateTime.UtcNow;
                             if (delay.TotalMilliseconds > 0)
                             {
                                 aborted = this.StopThreadEvent.WaitOne((int)delay.TotalMilliseconds, false);
@@ -232,8 +232,8 @@ namespace ArgusTV.Recorders.Common
                                 else
                                 {
                                     this.ActualRecordingFileName = ShareExplorer.TryConvertUncToLocal(this.RecordingFileName);
-                                    actualStartTime = DateTime.Now;
-                                    CallAddNewRecording(callbackAgent, actualStartTime);
+                                    actualStartTimeUtc = DateTime.UtcNow;
+                                    CallAddNewRecording(callbackAgent, actualStartTimeUtc);
                                 }
                             }
                         }
@@ -254,10 +254,10 @@ namespace ArgusTV.Recorders.Common
                         }
                         _fileSizeChecker = new FileSizeChecker(this.ActualRecordingFileName, checkerInterval.Value);
 
-                        while (!aborted && DateTime.Now < this.StopTime)
+                        while (!aborted && DateTime.UtcNow < this.StopTimeUtc)
                         {
                             TimeSpan interval = this.CheckRecordingActiveInterval;
-                            TimeSpan timeToEnd = this.StopTime.AddMilliseconds(1) - DateTime.Now;
+                            TimeSpan timeToEnd = this.StopTimeUtc.AddMilliseconds(1) - DateTime.UtcNow;
                             if (timeToEnd < interval)
                             {
                                 interval = timeToEnd;
@@ -281,7 +281,7 @@ namespace ArgusTV.Recorders.Common
                             catch { }
                         }
 
-                        CallEndRecording(callbackAgent, actualStartTime, DateTime.Now);
+                        CallEndRecording(callbackAgent, actualStartTimeUtc, DateTime.UtcNow);
                     }
                 }
                 catch (Exception ex)
@@ -306,12 +306,12 @@ namespace ArgusTV.Recorders.Common
 
         #region Private Methods
 
-        private void CallAddNewRecording(RecorderCallbackServiceAgent callbackAgent, DateTime actualStartTime)
+        private void CallAddNewRecording(RecorderCallbackServiceAgent callbackAgent, DateTime actualStartTimeUtc)
         {
             WriteLog("RecordingThread [{0}]: Calling AddNewRecording()", _recordingProgram.CreateProgramTitle());
             try
             {
-                callbackAgent.AddNewRecording(_recordingProgram, actualStartTime, this.RecordingFileName);
+                callbackAgent.AddNewRecording(_recordingProgram, actualStartTimeUtc, this.RecordingFileName);
             }
             catch (Exception ex)
             {
@@ -332,14 +332,14 @@ namespace ArgusTV.Recorders.Common
             }
         }
 
-        private void CallEndRecording(RecorderCallbackServiceAgent callbackAgent, DateTime actualStartTime, DateTime actualStopTime)
+        private void CallEndRecording(RecorderCallbackServiceAgent callbackAgent, DateTime actualStartTimeUtc, DateTime actualStopTimeUtc)
         {
-            bool isPartial = (actualStartTime > _recordingProgram.StartTime.AddSeconds(30))
-                || (actualStopTime < _recordingProgram.StopTime.AddSeconds(-30));
+            bool isPartial = (actualStartTimeUtc > _recordingProgram.StartTimeUtc.AddSeconds(30))
+                || (actualStopTimeUtc < _recordingProgram.StopTimeUtc.AddSeconds(-30));
             WriteLog("RecordingThread [{0}]: Calling EndRecording(IsPartial={1})", _recordingProgram.CreateProgramTitle(), isPartial);
             try
             {
-                callbackAgent.EndRecording(this.RecordingFileName, actualStopTime, isPartial, !_usedSuggestedBaseFileName);
+                callbackAgent.EndRecording(this.RecordingFileName, actualStopTimeUtc, isPartial, !_usedSuggestedBaseFileName);
             }
             catch (Exception ex)
             {

@@ -80,10 +80,10 @@ namespace ArgusTV.Recorders.Common
             }
         }
 
-        public override bool ValidateAndUpdateRecording(CardChannelAllocation channelAllocation, UpcomingProgram recordingProgram, DateTime stopTime)
+        public override bool ValidateAndUpdateRecording(CardChannelAllocation channelAllocation, UpcomingProgram recordingProgram, DateTime stopTimeUtc)
 		{
 			bool threadNotFound;
-			bool result = _recordingThreads.ValidateAndUpdateRecording(recordingProgram, stopTime, out threadNotFound);
+			bool result = _recordingThreads.ValidateAndUpdateRecording(recordingProgram, stopTimeUtc, out threadNotFound);
 			if (threadNotFound)
 			{
 				Log(TraceEventType.Warning, "{0} - ValidateAndUpdateRecording called on unknown recording {1}", this.Name, recordingProgram.CreateProgramTitle());
