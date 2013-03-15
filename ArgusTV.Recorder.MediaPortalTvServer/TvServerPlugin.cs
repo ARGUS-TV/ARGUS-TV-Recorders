@@ -441,6 +441,9 @@ namespace ArgusTV.Recorder.MediaPortalTvServer
                                             guideProgram.GuideChannelId = channel.GuideChannelId.Value;
                                             guideProgram.StartTime = epgProgram.StartTime;
                                             guideProgram.StopTime = epgProgram.EndTime;
+                                            guideProgram.StartTimeUtc = epgProgram.StartTime.ToUniversalTime();
+                                            guideProgram.StopTime = epgProgram.EndTime;
+                                            guideProgram.StopTimeUtc = epgProgram.EndTime.ToUniversalTime();
                                             guideProgram.Title = title;
                                             guideProgram.Description = description;
                                             guideProgram.Category = genre;

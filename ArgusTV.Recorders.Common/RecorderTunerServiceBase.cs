@@ -103,9 +103,9 @@ namespace ArgusTV.Recorders.Common
 
         public abstract string AllocateCard(Channel channel, ArgusTV.DataContracts.CardChannelAllocation[] alreadyAllocated, bool useReversePriority);
 
-        public abstract bool StartRecording(string serverHostName, int tcpPort, CardChannelAllocation channelAllocation, DateTime startTime, DateTime stopTime, UpcomingProgram recordingProgram, string suggestedBaseFileName);
+        public abstract bool StartRecording(string serverHostName, int tcpPort, CardChannelAllocation channelAllocation, DateTime startTimeUtc, DateTime stopTimeUtc, UpcomingProgram recordingProgram, string suggestedBaseFileName);
 
-        public abstract bool ValidateAndUpdateRecording(CardChannelAllocation channelAllocation, UpcomingProgram recordingProgram, DateTime stopTime);
+        public abstract bool ValidateAndUpdateRecording(CardChannelAllocation channelAllocation, UpcomingProgram recordingProgram, DateTime stopTimeUtc);
 
         public abstract bool AbortRecording(string serverHostName, int tcpPort, UpcomingProgram recordingProgram);
 

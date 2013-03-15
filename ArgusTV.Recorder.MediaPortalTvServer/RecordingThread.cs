@@ -47,9 +47,9 @@ namespace ArgusTV.Recorder.MediaPortalTvServer
         private TvDatabase.Channel _channel;
 
         public RecordingThread(Guid recorderTunerId, string serverHostName, int tcpPort, CardChannelAllocation channelAllocation,
-            DateTime startTime, DateTime stopTime, UpcomingProgram recordingProgram, string suggestedBaseFileName,
+            DateTime startTimeUtc, DateTime stopTimeUtc, UpcomingProgram recordingProgram, string suggestedBaseFileName,
             TvDatabase.Card recordOnCard, TvDatabase.Channel channel)
-            : base(recorderTunerId, serverHostName, tcpPort, channelAllocation, startTime, stopTime, recordingProgram, true)
+            : base(recorderTunerId, serverHostName, tcpPort, channelAllocation, startTimeUtc, stopTimeUtc, recordingProgram, true)
         {
             _suggestedBaseFileName = suggestedBaseFileName;
             _recordOnCard = recordOnCard;

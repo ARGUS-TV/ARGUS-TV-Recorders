@@ -440,7 +440,9 @@ namespace ArgusTV.Recorder.MediaPortalTvServer
                                             GuideProgram guideProgram = new GuideProgram();
                                             guideProgram.GuideChannelId = channel.GuideChannelId.Value;
                                             guideProgram.StartTime = epgProgram.StartTime;
+                                            guideProgram.StartTimeUtc = epgProgram.StartTime.ToUniversalTime();
                                             guideProgram.StopTime = epgProgram.EndTime;
+                                            guideProgram.StartTimeUtc = epgProgram.EndTime.ToUniversalTime();
                                             guideProgram.Title = title;
                                             guideProgram.Description = description;
                                             guideProgram.Category = genre;
