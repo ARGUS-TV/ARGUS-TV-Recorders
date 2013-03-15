@@ -45,12 +45,12 @@ namespace ArgusTV.Recorders.Common
             return false;
         }
 
-        public bool ValidateAndUpdateRecording(UpcomingProgram recordingProgram, DateTime stopTime, out bool threadNotFound)
+        public bool ValidateAndUpdateRecording(UpcomingProgram recordingProgram, DateTime stopTimeUtc, out bool threadNotFound)
         {
-            return ValidateAndUpdateRecording(recordingProgram.UpcomingProgramId, stopTime, out threadNotFound);
+            return ValidateAndUpdateRecording(recordingProgram.UpcomingProgramId, stopTimeUtc, out threadNotFound);
         }
 
-        public bool ValidateAndUpdateRecording(Guid programId, DateTime stopTime, out bool threadNotFound)
+        public bool ValidateAndUpdateRecording(Guid programId, DateTime stopTimeUtc, out bool threadNotFound)
         {
             lock (this.SyncLock)
             {
@@ -58,7 +58,7 @@ namespace ArgusTV.Recorders.Common
                 if (thread != null)
                 {
                     threadNotFound = false;
-                    thread.StopTime = stopTime;
+                    thread.StopTimeUtc = stopTimeUtc;
                     return thread.IsRecording;
                 }
             }
@@ -132,7 +132,7 @@ namespace ArgusTV.Recorders.Common
             {
                 if (thread.ChannelAllocation.CardId == newThread.ChannelAllocation.CardId
                     && thread.ChannelAllocation.ChannelId == newThread.ChannelAllocation.ChannelId
-                    && thread.StopTime <= newThread.StartTime)
+                    && thread.StopTimeUtc <= newThread.StartTimeUtc)
                 {
                     newThread.WaitForThreadToComplete = thread;
                     break;
