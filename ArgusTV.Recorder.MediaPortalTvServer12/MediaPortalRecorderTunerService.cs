@@ -179,7 +179,7 @@ namespace ArgusTV.Recorder.MediaPortalTvServer
         }
 
         public override bool StartRecording(string serverHostName, int tcpPort, CardChannelAllocation channelAllocation,
-            DateTime startTime, DateTime stopTime, UpcomingProgram recordingProgram, string suggestedBaseFileName)
+            DateTime startTimeUtc, DateTime stopTimeUtc, UpcomingProgram recordingProgram, string suggestedBaseFileName)
         {
             bool result = false;
 
@@ -191,7 +191,7 @@ namespace ArgusTV.Recorder.MediaPortalTvServer
                 if (channel != null)
                 {
                     result = this.RecordingThreads.StartNewThread(new RecordingThread(this.RecorderTunerId,
-                        serverHostName, tcpPort, channelAllocation, startTime, stopTime,
+                        serverHostName, tcpPort, channelAllocation, startTimeUtc, stopTimeUtc,
                         recordingProgram, suggestedBaseFileName, recordOnCard, channel));
                     if (!result)
                     {
@@ -268,7 +268,7 @@ namespace ArgusTV.Recorder.MediaPortalTvServer
                                 Log("TuneLiveTvStream(): tuning on card {0} {1}", card.IdCard, card.Name);
                                 lock (_liveStreamsLock)
                                 {
-                                    _liveStreams[liveStream.RtspUrl].StreamLastAliveTime = DateTime.Now;
+                                    _liveStreams[liveStream.RtspUrl].StreamLastAliveTimeUtc = DateTime.UtcNow;
                                 }
                                 LiveStreamResult result = StartTimeShifting(channel, card, mpChannel, ref tve3User, ref liveStream);
                                 if (result != LiveStreamResult.NoFreeCardFound)
@@ -351,7 +351,7 @@ namespace ArgusTV.Recorder.MediaPortalTvServer
                             }
                             liveStream.Channel = channel;
                             liveStream.CardId = tve3User.CardId.ToString(CultureInfo.InvariantCulture);
-                            liveStream.StreamLastAliveTime = DateTime.Now;
+                            liveStream.StreamLastAliveTimeUtc = DateTime.UtcNow;
                             lock (_liveStreamsLock)
                             {
                                 _liveStreams[liveStream.RtspUrl] = liveStream;
@@ -518,7 +518,7 @@ namespace ArgusTV.Recorder.MediaPortalTvServer
             {
                 if (_liveStreams.ContainsKey(liveStream.RtspUrl))
                 {
-                    _liveStreams[liveStream.RtspUrl].StreamLastAliveTime = liveStream.StreamLastAliveTime;
+                    _liveStreams[liveStream.RtspUrl].StreamLastAliveTimeUtc = liveStream.StreamLastAliveTimeUtc;
                     IUser tve3User = _liveStreamUsers[liveStream.RtspUrl];
                     if (TvServerPlugin.TvController_IsTimeShifting(ref tve3User))
                     {
