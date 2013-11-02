@@ -522,6 +522,13 @@ namespace ArgusTV.Recorder.MediaPortalTvServer
 
                 Guid channelId = tvSchedulerAgent.EnsureChannel(channelType, mpChannel.DisplayName, groupName);
                 channel = tvSchedulerAgent.GetChannelById(channelId);
+
+                if (!channel.LogicalChannelNumber.HasValue
+                    && mpChannel.ChannelNumber > 0)
+                {
+                    channel.LogicalChannelNumber = mpChannel.ChannelNumber;
+                    tvSchedulerAgent.SaveChannel(channel);
+                }
             }
             return channel;
         }
