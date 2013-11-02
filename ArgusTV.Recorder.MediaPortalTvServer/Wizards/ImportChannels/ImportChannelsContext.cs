@@ -98,6 +98,10 @@ namespace ArgusTV.Recorder.MediaPortalTvServer.Wizards.ImportChannels
                 this.Channel = mpChannel;
                 this.GroupName = groupName;
                 this.GroupSequence = groupSequence;
+                if (mpChannel.ChannelNumber > 0)
+                {
+                    this.LogicalChannelNumber = mpChannel.ChannelNumber;
+                }
             }
 
             public TvDatabase.Channel Channel { set; get; }
@@ -105,6 +109,8 @@ namespace ArgusTV.Recorder.MediaPortalTvServer.Wizards.ImportChannels
             public string GroupName { set; get; }
 
             public int GroupSequence { set; get; }
+
+            public int? LogicalChannelNumber { get; set; }
         }
     }
 }

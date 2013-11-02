@@ -153,6 +153,7 @@ namespace ArgusTV.Recorder.MediaPortalTvServer.Wizards.ImportChannels
                 channel.ChannelType = this.Context.ChannelType;
                 channel.VisibleInGuide = true;
                 channel.DisplayName = importChannel.Channel.DisplayName;
+                channel.LogicalChannelNumber = importChannel.LogicalChannelNumber;
                 channel.Sequence = importChannel.Channel.SortOrder;
                 channel = tvSchedulerAgent.SaveChannel(channel);
                 Channels.ChannelLinks.SetLinkedMediaPortalChannel(channel, importChannel.Channel);
